@@ -1,0 +1,209 @@
+﻿@model PersonalAccount.Models.LoginViewModel
+@{
+    ViewBag.Title = "ДельтаКредит - Оценочным компаниям";
+}
+
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">PersonalAccount</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/Home/Index">Главная</a></li>
+                <li><a href="/Home/Register">Регистрация</a></li>
+                <li><a href="/Home/RegisterOGRN">Регистрация ОГРН</a></li>
+                <li class="active"><a href="/Home/RegisterUser">Регистрация Пользователя</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <a href="https://www.deltacredit.ru" class="simple-text"><img src="@Url.Content("~/Content/img/logo.png")"></a>
+                    <div class="text-center">
+                        <h1>Регистрация</h1>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-striped">
+                            <thead>
+                            <th></th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><p>Наименование оценочной компании: *</p></td>
+                                    <td>
+                                        <input type="text" class="form-control border-input" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Организационно-правовая форма: *</p></td>
+                                    <td>
+                                        <select class="form-control border-input" required>
+                                            <option value="ООО" selected>ООО</option>
+                                            <option value="АО">АО</option>
+                                            <option value="ЗАО">ЗАО</option>
+                                            <option value="ПАО">ПАО</option>
+                                            <option value="ОАО">ОАО</option>
+                                            <option value="ИП">ИП</option>
+                                            <option value="ТПП">ТПП</option>
+                                            <option value="БУ">БУ</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Город: *</p></td>
+                                    <td>
+                                        <input type="text" class="form-control border-input" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>ОГРН/ОГРНИП: *</p>
+                                    </td>
+                                    <td>
+                                        <input id="party" name="party" type="text" />
+                                        <script type="text/javascript">
+                                            $("#party").suggestions({
+                                                token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
+                                                type: "PARTY",
+                                                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                                onSelect: function (suggestion) {
+                                                    console.log(suggestion);
+                                                }
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Фио контактного лица: *</p></td>
+                                    <td>
+                                        <input id="fullname" name="fullname" type="text" />
+                                        <script type="text/javascript">
+                                            $("#fullname").suggestions({
+                                                token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
+                                                type: "NAME",
+                                                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                                onSelect: function (suggestion) {
+                                                    console.log(suggestion);
+                                                }
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Основной телефон: *</p></td>
+                                    <td>
+                                        <input type="text" class="form-control border-input" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Доп. телефон 1: *</p></td>
+                                    <td>
+                                        <input type="text" class="form-control border-input" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>E-mail сотрудника: *</p></td>
+                                    <td>
+                                        <input id="emailE" name="email" type="text" />
+                                        <script type="text/javascript">
+                                            $("#emailE").suggestions({
+                                                token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
+                                                type: "EMAIL",
+                                                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                                onSelect: function (suggestion) {
+                                                    console.log(suggestion);
+                                                }
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>E-mail организации: *</p></td>
+                                    <td>
+                                        <input id="email" name="email" type="text" />
+                                        <script type="text/javascript">
+                                            $("#email").suggestions({
+                                                token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
+                                                type: "EMAIL",
+                                                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                                                onSelect: function (suggestion) {
+                                                    console.log(suggestion);
+                                                }
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Web-сайт:</p></td>
+                                    <td>
+                                        <input type="text" class="form-control border-input" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger btn-fill btn-wd">Далее</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row card">
+                    <form method="post" action="/Account/Login" class="log-form">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Логин</label>
+                                @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
+                                @Html.ValidationMessageFor(t => t.Email)
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Пароль</label>
+                                @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
+                                @Html.ValidationMessageFor(t => t.Password)
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
+                                <label>Запомнить меня</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-danger btn-fill btn-wd">Войти</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="text-center">
+                                <a href="Register">Регистрация</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

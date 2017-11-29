@@ -51,6 +51,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="dadata-csharp">
+      <HintPath>..\packages\dadata-csharp-16.10\dadata-csharp.dll</HintPath>
+    </Reference>
     <Reference Include="DaData.Client, Version=1.0.6520.40779, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DaData.Client.0.1.3\lib\net45\DaData.Client.dll</HintPath>
     </Reference>
@@ -118,8 +121,14 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\suggestions-csharp-17.10.1\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=106.1.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.1.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="suggestions-csharp">
+      <HintPath>..\packages\suggestions-csharp-17.10.1\suggestions-csharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -208,21 +217,40 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DadataSettings.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Clients\apple-icon-1.png" />
+    <Content Include="Content\Clients\Client1.jpg" />
+    <Content Include="Content\Clients\Client17.jpg" />
+    <Content Include="Content\Clients\Client2.jpg" />
+    <Content Include="Content\Clients\Client5.jpg" />
+    <Content Include="Content\Clients\woman.jpg" />
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\demo.css" />
+    <Content Include="Content\css\paper-dashboard.css" />
+    <Content Include="Content\css\themify-icons.css" />
+    <Content Include="Content\fonts\themify.svg" />
+    <Content Include="Content\html\RangeErrorPage.html" />
+    <Content Include="Content\img\apple-icon-1.png" />
+    <Content Include="Content\img\apple-icon.png" />
+    <Content Include="Content\img\avatar.png" />
+    <Content Include="Content\img\favicon.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\js\bootstrap-checkbox-radio.js" />
+    <Content Include="Content\js\bootstrap-notify.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\chartist.min.js" />
+    <Content Include="Content\js\demo.js" />
+    <Content Include="Content\js\jquery-1.10.2.js" />
+    <Content Include="Content\js\paper-dashboard.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -238,12 +266,9 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\themify.eot" />
+    <Content Include="Content\fonts\themify.ttf" />
+    <Content Include="Content\fonts\themify.woff" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -309,6 +334,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\RegisterOGRN.cshtml" />
+    <Content Include="Views\Home\RegisterUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
