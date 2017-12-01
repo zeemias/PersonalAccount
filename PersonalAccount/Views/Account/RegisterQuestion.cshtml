@@ -1,0 +1,120 @@
+﻿<div class="card">
+    <a href="https://www.deltacredit.ru" class="simple-text"><img src="@Url.Content("~/Content/img/logo.png")"></a>
+    <div class="text-center">
+        <h1>Регистрация</h1>
+    </div>
+@using (Ajax.BeginForm("Register", "Account", new AjaxOptions { UpdateTargetId = "Register_Partial" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="text" name="Type" value="Questions" hidden>
+    <div class="content table-responsive table-full-width">
+        <table class="table table-striped">
+            <thead>
+            <th></th>
+            <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><p>Осуществляет ли компания профессиональную оценочную деятельность более 3 (трех) лет? *</p></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("ActivitiesYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                                @Html.CheckBox("ActivitiesNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Застрахована ли ответственность компании на случай причинения оценщиком (сотрудником компании) убытков третьим лицам? *</p></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("InsuranceYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                               @Html.CheckBox("InsuranceNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Является ли компания аффилированным ЮЛ риэлторской и/или брокерской компании? *</p></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("CompanyYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                                @Html.CheckBox("CompanyNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>
+                            Имеет ли компания в штатном составе сотрудников, находящихся в прямом подчинении, учредителей, руководителей или оценщиков,
+                            являющихся членами одной семьи и/или близкими родственниками? *
+                        </p>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("EmployeeYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                                @Html.CheckBox("EmployeeNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Имеют ли оценщики (соответствующие требованиям законодательства) опыт работы в оценочной деятельности более 1 (одного) года? *</p></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("ExperienceYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                                @Html.CheckBox("ExperienceNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Является ли работа в компании для оценщиков (соответствующих требованиям законодательства) основной? *</p></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.Label("Да")
+                                @Html.CheckBox("BaseYes")
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Нет")
+                                @Html.CheckBox("BaseNo")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger btn-fill btn-wd">Далее</button>
+        </div>
+    </div>
+}
+</div>

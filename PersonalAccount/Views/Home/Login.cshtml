@@ -1,27 +1,26 @@
 ﻿@model PersonalAccount.Models.LoginViewModel
-
 <div class="row card">
-    @using (Ajax.BeginForm("Login", "Account", new AjaxOptions { UpdateTargetId = "Login_Partial" }))
-    {
+    <form method="post" action="/Account/Login" class="log-form">
         @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
         <div class="col-md-12">
             <div class="form-group">
-                @Html.LabelFor(t => t.Email)
+                <label>Логин</label>
                 @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(t => t.Email)
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                @Html.LabelFor(t => t.Password)
+                <label>Пароль</label>
                 @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(t => t.Password)
             </div>
         </div>
         <div class="col-md-12">
-            <div class="form-group text-center">
-                @Html.CheckBoxFor(t => t.RememberMe)
-                @Html.LabelFor(t => t.RememberMe)
+            <div class="form-group">
+                @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
+                <label>Запомнить меня</label>
             </div>
         </div>
         <div class="col-md-12">
@@ -31,22 +30,12 @@
                 </div>
             </div>
         </div>
-    }
-</div>
-<div class="row">
+    </form>
     <div class="col-md-12">
         <div class="form-group">
             <div class="text-center">
-                <p>
-                    @Html.ActionLink("Регистрация", "Register", "Account")
-                </p>
-                <p>
-                    @Html.ActionLink("Забыли пароль?", "ForgotPassword")
-                </p>
+                <a href="Register">Регистрация</a>
             </div>
         </div>
     </div>
 </div>
-
-
-

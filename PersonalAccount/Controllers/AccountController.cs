@@ -22,7 +22,7 @@ namespace PersonalAccount.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +34,9 @@ namespace PersonalAccount.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -57,7 +57,6 @@ namespace PersonalAccount.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -66,7 +65,7 @@ namespace PersonalAccount.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -79,11 +78,11 @@ namespace PersonalAccount.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal("#");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = "#", RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -120,7 +119,7 @@ namespace PersonalAccount.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -147,16 +146,45 @@ namespace PersonalAccount.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(string type)
         {
+            RegisterViewModel model = new RegisterViewModel();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    switch (Request["Type"])
+                    {
+                        case "Questions":
+                            if (Request["ActivitiesYes"] == "false" && Request["ActivitiesNo"] == "false" ||
+                                Request["InsuranceYes"] == "false" && Request["InsuranceNo"] == "false" ||
+                                Request["CompanyYes"] == "false" && Request["CompanyNo"] == "false" ||
+                                Request["EmployeeYes"] == "false" && Request["EmployeeNo"] == "false" ||
+                                Request["ExperienceYes"] == "false" && Request["ExperienceNo"] == "false" ||
+                                Request["BaseYes"] == "false" && Request["BaseNo"] == "false")
+                            {
+                                ModelState.AddModelError("", "Не все поля заполнены");
+                                return View();
+                        }
+                            if (Request["ActivitiesYes"] == "true,false" && Request["InsuranceNo"] == "true,false" && Request["CompanyNo"] == "true,false" && 
+                                Request["EmployeeNo"] == "true,false" && Request["ExperienceYes"] == "true,false" && Request["BaseYes"] == "true,false")
+                            {
+                            ViewBag.Type = "RegisterOGRN";
+                                return View();
+                            }
+                            ViewBag.Type = "NoRegistration";
+                            return View();
+                        case "OGRN":
+
+                            return View();
+                        default:
+                            return RedirectToAction("Http404", "Error");
+                    }
+
+            /*    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -165,10 +193,61 @@ namespace PersonalAccount.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
+                AddErrors(result);*/
             }
 
             // If we got this far, something failed, redisplay form
+           return View();
+        }
+
+        //
+        // GET: /Account/RegisterQuestion
+        [AllowAnonymous]
+        public ActionResult RegisterQuestion()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/NoRegistration
+        [AllowAnonymous]
+        public ActionResult NoRegistration()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/RegisterQuestion
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterQuestion(string model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/RegisterQuestion
+        [AllowAnonymous]
+        public ActionResult RegisterOGRN()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/RegisterQuestion
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterOGRN(string model)
+        {
+            if (ModelState.IsValid)
+            {
+            }
             return View(model);
         }
 

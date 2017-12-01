@@ -1,0 +1,36 @@
+﻿<div class="card">
+    <a href="https://www.deltacredit.ru" class="simple-text"><img src="@Url.Content("~/Content/img/logo.png")"></a>
+    <div class="text-center">
+        <h1>Регистрация</h1>
+    </div>
+    
+@using (Ajax.BeginForm("Register", "Account", new AjaxOptions { UpdateTargetId = "Register_Partial" }))
+{
+    <div class="row" style="height:200px; padding-top:80px;">
+        <input type="text" name="Type" value="OGRN" hidden>
+        <div class="col-md-4">
+            <div class="form-group">
+                <p>Введите ОГРН/ОГРНИП *</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input id="party" name="party" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger btn-fill btn-wd">Далее</button>
+    </div>
+}
+</div>
+
+<script type="text/javascript">
+                    $("#party").suggestions({
+                        token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
+                        type: "PARTY",
+                        onSelect: function (suggestion) {
+                            console.log(suggestion);
+                        }
+                    });
+</script>

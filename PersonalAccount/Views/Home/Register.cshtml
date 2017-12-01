@@ -45,10 +45,16 @@
                                <tr>
                                  <td><p>Осуществляет ли компания профессиональную оценочную деятельность более 3 (трех) лет? *</p></td>
                                    <td>
-                                       <select class="form-control border-input" required>
-                                           <option value="Да" selected>Да</option>
-                                           <option value="Нет">Нет</option>
-                                       </select>
+                                       <div class="row">
+                                           <div class="col-md-6">
+                                              @Html.Label("Да")
+                                              @Html.CheckBox("true")
+                                           </div>
+                                           <div class="col-md-6">
+                                               @Html.Label("Нет")
+                                               @Html.CheckBox("false")
+                                           </div>
+                                       </div>
                                    </td>
                                </tr>
                                 <tr>
@@ -106,47 +112,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="row card">
-                    <form method="post" action="/Account/Login" class="log-form">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Логин</label>
-                                @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                                @Html.ValidationMessageFor(t => t.Email)
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Пароль</label>
-                                @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                                @Html.ValidationMessageFor(t => t.Password)
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
-                                <label>Запомнить меня</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-danger btn-fill btn-wd">Войти</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="text-center">
-                                <a href="Register">Регистрация</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-3" id="Login_Partial">
+                @Html.Partial("~/Views/Account/Login.cshtml")
             </div>
         </div>
     </div>

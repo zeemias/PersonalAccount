@@ -1,41 +1,30 @@
-﻿@model PersonalAccount.Models.RegisterViewModel
+﻿@model PersonalAccount.Models.LoginViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "ДельтаКредит - Регистрация";
 }
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-8" id="Register_Partial">
+                @if (ViewBag.Type == "RegisterOGRN")
+                {
+                    @Html.Partial("~/Views/Account/RegisterOGRN.cshtml")
+                }
+                else if (ViewBag.Type == "NoRegistration")
+                {
+                    @Html.Partial("~/Views/Account/NoRegistration.cshtml")
+                }
+                else
+                {
+                    @Html.Partial("~/Views/Account/RegisterQuestion.cshtml")
+                }
+            </div>
+            <div class="col-md-3" id="Login_Partial">
+                @Html.Partial("~/Views/Account/Login.cshtml")
+            </div>
+        </div>
+    </div>
+</div>
 
-<h2>@ViewBag.Title.</h2>
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

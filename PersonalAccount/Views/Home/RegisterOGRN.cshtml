@@ -48,7 +48,6 @@
                                         $("#party").suggestions({
                                             token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
                                             type: "PARTY",
-                                            /* Вызывается, когда пользователь выбирает одну из подсказок */
                                             onSelect: function(suggestion) {
                                                 console.log(suggestion);
                                             }
@@ -62,47 +61,8 @@
                     </div>
                     </div>
                 </div>
-            <div class="col-md-3">
-                <div class="row card">
-                    <form method="post" action="/Account/Login" class="log-form">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Логин</label>
-                                @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                                @Html.ValidationMessageFor(t => t.Email)
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Пароль</label>
-                                @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                                @Html.ValidationMessageFor(t => t.Password)
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
-                                <label>Запомнить меня</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-danger btn-fill btn-wd">Войти</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="text-center">
-                                <a href="Register">Регистрация</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-3" id="Login_Partial">
+                @Html.Partial("~/Views/Account/Login.cshtml")
             </div>
         </div>
     </div>

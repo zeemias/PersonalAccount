@@ -16,10 +16,10 @@
 </div>
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
-<li class="active"><a href="Index">Главная</a></li>
-<li><a href="Register">Регистрация</a></li>
-<li><a href="RegisterOGRN">Регистрация ОГРН</a></li>
-<li><a href="RegisterUser">Регистрация Пользователя</a></li>
+<li class="active"><a href="/Home/Index">Главная</a></li>
+<li><a href="/Home/Register">Регистрация</a></li>
+<li><a href="/Home/RegisterOGRN">Регистрация ОГРН</a></li>
+<li><a href="/Home/RegisterUser">Регистрация Пользователя</a></li>
 </ul>
 </div>
 </div>
@@ -71,47 +71,8 @@
                         </p>
                      </div>
                   </div>
-                <div class="col-md-3">
-                    <div class="row card">
-                        <form method="post" action="/Account/Login" class="log-form">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true)
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Логин</label>
-                                    @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                                    @Html.ValidationMessageFor(t => t.Email)
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Пароль</label>
-                                    @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                                    @Html.ValidationMessageFor(t => t.Password)
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
-                                    <label>Запомнить меня</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-danger btn-fill btn-wd">Войти</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="text-center">
-                                    <a href="Register">Регистрация</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-3" id="Login_Partial">
+                     @Html.Partial("~/Views/Account/Login.cshtml")
                 </div>
             </div>
     </div>
