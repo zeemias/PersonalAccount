@@ -66,8 +66,66 @@ namespace PersonalAccount.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "E-mail")]
+        [Display(Name = "E-mail организации:")]
         public string Email { get; set; }
+
+        [Display(Name = "Вид организации:")]
+        public string CompanyType { get; set; }
+
+        [Required]
+        [Display(Name = "Организационно-правовая форма:")]
+        public string OPF { get; set; }
+
+        [Display(Name = "Название компании:")]
+        public string CompanyName { get; set; }
+
+        [Required]
+        [Display(Name = "Полное нименование оценочной компании:")]
+        public string FullCompanyName { get; set; }
+
+        [Required]
+        [Display(Name = "Город:")]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "ОГРН/ОГРНИП:")]
+        public string OGRN { get; set; }
+
+        [Required]
+        [Display(Name = "ФИО контактного лица:")]
+        public string ContactFIO { get; set; }
+
+        [Required]
+        [Display(Name = "Основной телефон:")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Доп. телефон 1:")]
+        public string PhoneNumberOne { get; set; }
+
+        [Display(Name = "Доп. телефон 2:")]
+        public string PhoneNumberTwo { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "E-mail сотрудника:")]
+        public string EmailEmployee { get; set; }
+
+        [Display(Name = "Web-сайт:")]
+        public string WebSite { get; set; }
+
+        [Display(Name = "ИНН:")]
+        public string INN { get; set; }
+
+        [Display(Name = "КПП:")]
+        public string KPP { get; set; }
+
+        [Display(Name = "Юридический адрес:")]
+        public string LawAddress { get; set; }
+
+        [Display(Name = "ФИО директора:")]
+        public string DirectorFIO { get; set; }
+
+        [Display(Name = "Должность:")]
+        public string DirectorPost { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -79,6 +137,8 @@ namespace PersonalAccount.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
     }
 
     public class ResetPasswordViewModel

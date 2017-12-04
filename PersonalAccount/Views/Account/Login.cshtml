@@ -1,4 +1,4 @@
-﻿@model PersonalAccount.Models.LoginViewModel
+﻿@model PersonalAccount.Models.LogRegViewModel
 
 <div class="row card">
     @using (Ajax.BeginForm("Login", "Account", new AjaxOptions { UpdateTargetId = "Login_Partial" }))
@@ -6,22 +6,22 @@
         @Html.AntiForgeryToken()
         <div class="col-md-12">
             <div class="form-group">
-                @Html.LabelFor(t => t.Email)
-                @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
+                @Html.LabelFor(t => t.Logins.Email)
+                @Html.TextBoxFor(t => t.Logins.Email, new { @class = "form-control border-input" })
+                @Html.ValidationMessageFor(t => t.Logins.Email, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                @Html.LabelFor(t => t.Password)
-                @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
+                @Html.LabelFor(t => t.Logins.Password)
+                @Html.PasswordFor(t => t.Logins.Password, new { @class = "form-control border-input" })
+                @Html.ValidationMessageFor(t => t.Logins.Password, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group text-center">
-                @Html.CheckBoxFor(t => t.RememberMe)
-                @Html.LabelFor(t => t.RememberMe)
+                @Html.CheckBoxFor(t => t.Logins.RememberMe)
+                @Html.LabelFor(t => t.Logins.RememberMe)
             </div>
         </div>
         <div class="col-md-12">

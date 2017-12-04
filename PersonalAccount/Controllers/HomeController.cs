@@ -10,27 +10,20 @@ namespace PersonalAccount.Controllers
     {
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Account", "Home");
+            }
             return View();
         }
 
-        public ActionResult Register()
+        public ActionResult Account()
         {
-            return View();
-        }
-
-        public ActionResult RegisterOGRN()
-        {
-            return View();
-        }
-
-        public ActionResult RegisterUser()
-        {
-            return View();
-        }
-
-        public ActionResult Login()
-        {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

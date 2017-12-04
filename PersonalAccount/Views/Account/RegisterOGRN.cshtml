@@ -6,6 +6,7 @@
     
 @using (Ajax.BeginForm("Register", "Account", new AjaxOptions { UpdateTargetId = "Register_Partial" }))
 {
+    @Html.AntiForgeryToken()
     <div class="row" style="height:200px; padding-top:80px;">
         <input type="text" name="Type" value="OGRN" hidden>
         <div class="col-md-4">
@@ -15,7 +16,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <input id="party" name="party" type="text" />
+                <input id="party" name="party" type="text" class = "form-control border-input" />
             </div>
         </div>
     </div>
@@ -30,7 +31,7 @@
                         token: "3bb69fe709e61337c7da821c21e0b1faa85dc7c3",
                         type: "PARTY",
                         onSelect: function (suggestion) {
-                            console.log(suggestion);
+                            $("#party").val(suggestion.data.ogrn);
                         }
                     });
 </script>

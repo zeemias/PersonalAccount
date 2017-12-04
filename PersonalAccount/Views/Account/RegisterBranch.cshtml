@@ -1,0 +1,121 @@
+﻿@model PersonalAccount.Models.LogRegViewModel
+<div class="card">
+    <a href="https://www.deltacredit.ru" class="simple-text"><img src="@Url.Content("~/Content/img/logo.png")"></a>
+    <div class="text-center">
+        <h1>Регистрация</h1>
+    </div>
+    @using (Ajax.BeginForm("Register", "Account", new AjaxOptions { UpdateTargetId = "Register_Partial" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="text" name="Type" value="RegisterBranch" hidden>
+        <input type="text" name="OGRN" value="@ViewBag.OGRN" hidden>
+        <div class="content table-responsive table-full-width">
+            <table class="table table-striped">
+                <thead>
+                <th></th>
+                <th></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><p>Вид организации: *</p></td>
+                        <td>
+                            @Html.DropDownListFor(model => model.Registers.CompanyType, new SelectList(
+                          new List<Object>{
+                               new { value = "Филиал" , text = "Филиал" },
+                               new { value = "Представительство" , text = "Представительство" }
+                            },
+                          "value",
+                          "text"), new { @class = "form-control border-input" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Город: *</p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.City, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.City, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Фио контактного лица: *</p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.ContactFIO, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.ContactFIO, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Основной телефон: *</p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.PhoneNumber, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.PhoneNumber, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Доп. телефон 1: </p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.PhoneNumberOne, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.PhoneNumberOne, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Доп. телефон 2: </p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.PhoneNumberTwo, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.PhoneNumberTwo, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>E-mail сотрудника: </p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.EmailEmployee, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.EmailEmployee, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>E-mail организации: *</p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.Email, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.Email, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Web-сайт:</p></td>
+                        <td>
+                            @Html.TextBoxFor(t => t.Registers.WebSite, new { @class = "form-control border-input" })
+                            @Html.ValidationMessageFor(t => t.Registers.WebSite, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger btn-fill btn-wd">Далее</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    var token = "3bb69fe709e61337c7da821c21e0b1faa85dc7c3";
+    $("#Registers_Email").suggestions({
+        token: token,
+        type: "EMAIL",
+        onSelect: function (suggestion) {
+            console.log(suggestion);
+        }
+    });
+    $("Registers_#EmailEmployee").suggestions({
+        token: token,
+        type: "EMAIL",
+        onSelect: function (suggestion) {
+            console.log(suggestion);
+        }
+    });
+    $("#Registers_ContactFIO").suggestions({
+        token: token,
+        type: "NAME",
+        onSelect: function (suggestion) {
+            console.log(suggestion);
+        }
+    });
+
+</script>

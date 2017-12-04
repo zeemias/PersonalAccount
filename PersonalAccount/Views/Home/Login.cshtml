@@ -1,4 +1,4 @@
-﻿@model PersonalAccount.Models.LoginViewModel
+﻿@model PersonalAccount.Models.LogRegViewModel
 <div class="row card">
     <form method="post" action="/Account/Login" class="log-form">
         @Html.AntiForgeryToken()
@@ -6,20 +6,20 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Логин</label>
-                @Html.TextBoxFor(t => t.Email, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Email)
+                @Html.TextBoxFor(t => t.Logins.Email, new { @class = "form-control border-input" })
+                @Html.ValidationMessageFor(t => t.Logins.Email, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label>Пароль</label>
-                @Html.PasswordFor(t => t.Password, new { @class = "form-control border-input" })
-                @Html.ValidationMessageFor(t => t.Password)
+                @Html.PasswordFor(t => t.Logins.Password, new { @class = "form-control border-input" })
+                @Html.ValidationMessageFor(t => t.Logins.Password, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                @Html.CheckBoxFor(t => t.RememberMe, new { @class = "form-control border-input checkbox" })
+                @Html.CheckBoxFor(t => t.Logins.RememberMe, new { @class = "form-control border-input checkbox" })
                 <label>Запомнить меня</label>
             </div>
         </div>

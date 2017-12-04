@@ -1,0 +1,17 @@
+﻿<div class="card">
+    <a href="https://www.deltacredit.ru" class="simple-text"><img src="@Url.Content("~/Content/img/logo.png")"></a>
+    <div class="text-center">
+        <h1>Регистрация</h1>
+    </div>
+    <p>В системе уже зарегистрирована организация с таким ОГРН.</p>
+    <p>Хотите создать обособленное подразделение?</p>
+    @using (Ajax.BeginForm("Register", "Account", new AjaxOptions { UpdateTargetId = "Register_Partial" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="text" name="Type" value="Branch" hidden>
+        <input type="text" name="OGRN" value="@ViewBag.OGRN" hidden>
+        @Html.ActionLink("Нет", "Index", "Home", null, new { @class = "btn btn-danger btn-fill btn-wd" })
+        <button type="submit" class="btn btn-danger btn-fill btn-wd">Да</button>
+    }
+</div>

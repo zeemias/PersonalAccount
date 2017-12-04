@@ -9,6 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PersonalAccount.Models;
+using System.Net;
+using DaData.Client;
+using System.Collections.Generic;
+using System.Web.Security;
+using System.Net.Mail;
 
 namespace PersonalAccount.Controllers
 {
@@ -65,7 +70,7 @@ namespace PersonalAccount.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LogRegViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -74,15 +79,15 @@ namespace PersonalAccount.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Logins.Email, model.Logins.Password, model.Logins.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal("#");
+                    return RedirectToAction("About", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = "#", RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = "#", RememberMe = model.Logins.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -148,56 +153,195 @@ namespace PersonalAccount.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(string type)
         {
-            RegisterViewModel model = new RegisterViewModel();
             if (ModelState.IsValid)
             {
-                    switch (Request["Type"])
-                    {
-                        case "Questions":
-                            if (Request["ActivitiesYes"] == "false" && Request["ActivitiesNo"] == "false" ||
-                                Request["InsuranceYes"] == "false" && Request["InsuranceNo"] == "false" ||
-                                Request["CompanyYes"] == "false" && Request["CompanyNo"] == "false" ||
-                                Request["EmployeeYes"] == "false" && Request["EmployeeNo"] == "false" ||
-                                Request["ExperienceYes"] == "false" && Request["ExperienceNo"] == "false" ||
-                                Request["BaseYes"] == "false" && Request["BaseNo"] == "false")
-                            {
-                                ModelState.AddModelError("", "Не все поля заполнены");
-                                return View();
-                        }
-                            if (Request["ActivitiesYes"] == "true,false" && Request["InsuranceNo"] == "true,false" && Request["CompanyNo"] == "true,false" && 
-                                Request["EmployeeNo"] == "true,false" && Request["ExperienceYes"] == "true,false" && Request["BaseYes"] == "true,false")
-                            {
-                            ViewBag.Type = "RegisterOGRN";
-                                return View();
-                            }
-                            ViewBag.Type = "NoRegistration";
-                            return View();
-                        case "OGRN":
-
-                            return View();
-                        default:
-                            return RedirectToAction("Http404", "Error");
-                    }
-
-            /*    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                switch (Request["Type"])
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);*/
+                    case "Questions":
+                        if (Request["ActivitiesYes"] == "false" && Request["ActivitiesNo"] == "false" ||
+                            Request["InsuranceYes"] == "false" && Request["InsuranceNo"] == "false" ||
+                            Request["CompanyYes"] == "false" && Request["CompanyNo"] == "false" ||
+                            Request["EmployeeYes"] == "false" && Request["EmployeeNo"] == "false" ||
+                            Request["ExperienceYes"] == "false" && Request["ExperienceNo"] == "false" ||
+                            Request["BaseYes"] == "false" && Request["BaseNo"] == "false")
+                        {
+                            ModelState.AddModelError("", "Не все поля заполнены");
+                            return View();
+                        }
+                        if (Request["ActivitiesYes"] == "true,false" && Request["ActivitiesNo"] == "true,false" ||
+                            Request["InsuranceYes"] == "true,false" && Request["InsuranceNo"] == "true,false" ||
+                            Request["CompanyYes"] == "true,false" && Request["CompanyNo"] == "true,false" ||
+                            Request["EmployeeYes"] == "true,false" && Request["EmployeeNo"] == "true,false" ||
+                            Request["ExperienceYes"] == "true,false" && Request["ExperienceNo"] == "true,false" ||
+                            Request["BaseYes"] == "true,false" && Request["BaseNo"] == "true,false")
+                        {
+                            ModelState.AddModelError("", "Нельзя выбирать оба поля в одном вопросе");
+                            return View();
+                        }
+                        if (Request["ActivitiesYes"] == "true,false" && Request["InsuranceNo"] == "true,false" && Request["CompanyNo"] == "true,false" &&
+                            Request["EmployeeNo"] == "true,false" && Request["ExperienceYes"] == "true,false" && Request["BaseYes"] == "true,false")
+                        {
+                            ViewBag.Type = "RegisterOGRN";
+                            return View();
+                        }
+                        ViewBag.Type = "NoRegistration";
+                        return View();
+                    case "OGRN":
+                        string ogrn = Request["party"];
+                        var sug = DadataParty(ogrn);
+                        string ogrnParty = sug.data.ogrn;
+                        LogRegViewModel reg = new LogRegViewModel();
+                        if (ogrn == ogrnParty)
+                        {
+                            using(ApplicationDbContext db = new ApplicationDbContext())
+                            {
+                                if(db.Users.Any(t => t.OGRN == ogrn))
+                                {
+                                    ViewBag.Type = "CompanyRegistered";
+                                    ViewBag.OGRN = ogrn;
+                                    return View();
+                                }
+                                else
+                                {
+                                    reg.Registers.OGRN = ogrn;
+                                    reg.Registers.CompanyName = sug.data.name.@short;
+                                    reg.Registers.FullCompanyName = sug.data.name.short_with_opf;
+                                    reg.Registers.OPF = sug.data.opf.@short;
+                                    var city = DadataAddress(sug.data.address.value);
+                                    reg.Registers.City = city.data.city;
+                                    ViewBag.Type = "RegisterUser";
+                                    return View(reg);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return View();
+                        }
+                    case "User":
+                        string regOGRN = Request["Registers.OGRN"];
+                        var suggestion = DadataParty(regOGRN);
+                        string password = Membership.GeneratePassword(12, 1);
+                        var user = new ApplicationUser { UserName = Request["Registers.Email"],
+                            CompanyType = "Организация",
+                            Email = Request["Registers.Email"],
+                            OGRN = regOGRN,
+                            City = Request["Registers.City"],
+                            CompanyName = Request["Registers.CompanyName"],
+                            FullCompanyName = suggestion.value,
+                            OPF = Request["Registers.OPF"],
+                            ContactFIO = Request["Registers.ContactFIO"],
+                            PhoneNumber = Request["Registers.PhoneNumber"],
+                            PhoneNumberOne = Request["Registers.PhoneNumberOne"],
+                            PhoneNumberTwo = Request["Registers.PhoneNumberTwo"],
+                            EmailEmployee = Request["Registers.EmailEmployee"],
+                            WebSite = Request["Registers.WebSite"],
+                            INN = suggestion.data.inn,
+                            KPP = suggestion.data.kpp,
+                            DirectorFIO = suggestion.data.management.name,
+                            DirectorPost = suggestion.data.management.post,
+                            LawAddress = suggestion.data.address.value
+                        };
+                        var result = await UserManager.CreateAsync(user, password);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            SendEmailAsync(user.Email, "Регистрация", "Спасибо за регистрацию!<br> Ваш Логин: " + user.Email + "<br> Ваш пароль: "+ password);
+                            ViewBag.Type = "RegisterSuccess";
+                            return View();
+                        }
+                        AddErrors(result); 
+                        return View();
+                    case "Branch":
+                        ViewBag.OGRN = Request["OGRN"];
+                        ViewBag.Type = "RegisterBranch";
+                        return View();
+                    case "RegisterBranch":
+                        string branchOGRN = Request["OGRN"];
+                        var sugbranch = DadataParty(branchOGRN);
+                        string passwordBranch = Membership.GeneratePassword(12, 1);
+                        var userBranch = new ApplicationUser
+                        {
+                            UserName = Request["Registers.Email"],
+                            CompanyType = Request["Registers.CompanyType"],
+                            Email = Request["Registers.Email"],
+                            OGRN = branchOGRN,
+                            City = Request["Registers.City"],
+                            CompanyName = sugbranch.data.name.@short,
+                            FullCompanyName = sugbranch.data.name.short_with_opf,
+                            OPF = sugbranch.data.opf.@short,
+                            ContactFIO = Request["Registers.ContactFIO"],
+                            PhoneNumber = Request["Registers.PhoneNumber"],
+                            PhoneNumberOne = Request["Registers.PhoneNumberOne"],
+                            PhoneNumberTwo = Request["Registers.PhoneNumberTwo"],
+                            EmailEmployee = Request["Registers.EmailEmployee"],
+                            WebSite = Request["Registers.WebSite"],
+                            INN = sugbranch.data.inn,
+                            KPP = sugbranch.data.kpp,
+                            DirectorFIO = sugbranch.data.management.name,
+                            DirectorPost = sugbranch.data.management.post,
+                            LawAddress = sugbranch.data.address.value
+                        };
+                        var resultBranch = await UserManager.CreateAsync(userBranch, passwordBranch);
+                        if (resultBranch.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(userBranch, isPersistent: false, rememberBrowser: false);
+                            SendEmailAsync(userBranch.Email, "Регистрация", "Спасибо за регистрацию!<br> Ваш Логин: " + userBranch.Email + "<br> Ваш пароль: " + passwordBranch);
+                            ViewBag.Type = "RegisterSuccess";
+                            return View();
+                        }
+                        AddErrors(resultBranch);
+                        return View();
+                    default:
+                        return RedirectToAction("Http404", "Error");
+                }   
             }
 
             // If we got this far, something failed, redisplay form
            return View();
+        }
+
+        public void SendEmailAsync(string GetEmail, string mailSubject, string mailBody)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("DeltaCreditBot@yandex.ru");
+                mail.To.Add(GetEmail);
+                mail.Subject = mailSubject;
+                mail.Body = mailBody;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 25))
+                {
+                    smtp.Credentials = new NetworkCredential("DeltaCreditBot@yandex.ru", "Gcr8UcxdDPa");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }    
+            }
+            catch
+            {
+            }
+        }
+
+        SuggestPartyResponse.Suggestions DadataParty(string party)
+        {
+            var token = "3bb69fe709e61337c7da821c21e0b1faa85dc7c3";
+            var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
+            var api = new SuggestClient(token, url);
+            var response = api.QueryParty(party);
+            var suggestion = response.suggestions[0];
+            return suggestion;
+        }
+
+        SuggestAddressResponse.Suggestions DadataAddress(string address)
+        {
+            var token = "3bb69fe709e61337c7da821c21e0b1faa85dc7c3";
+            var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
+            var api = new SuggestClient(token, url);
+            var response = api.QueryAddress(address);
+            var suggestion = response.suggestions[0];
+            return suggestion;
         }
 
         //
@@ -212,6 +356,14 @@ namespace PersonalAccount.Controllers
         // GET: /Account/NoRegistration
         [AllowAnonymous]
         public ActionResult NoRegistration()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterUser
+        [AllowAnonymous]
+        public ActionResult RegisterUser()
         {
             return View();
         }
@@ -234,6 +386,30 @@ namespace PersonalAccount.Controllers
         // GET: /Account/RegisterQuestion
         [AllowAnonymous]
         public ActionResult RegisterOGRN()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterQuestion
+        [AllowAnonymous]
+        public ActionResult CompanyRegistered()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterQuestion
+        [AllowAnonymous]
+        public ActionResult RegisterBranch()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterQuestion
+        [AllowAnonymous]
+        public ActionResult RegisterSuccess()
         {
             return View();
         }
@@ -466,8 +642,7 @@ namespace PersonalAccount.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

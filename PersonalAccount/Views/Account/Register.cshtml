@@ -1,4 +1,4 @@
-﻿@model PersonalAccount.Models.LoginViewModel
+﻿@model PersonalAccount.Models.LogRegViewModel
 @{
     ViewBag.Title = "ДельтаКредит - Регистрация";
 }
@@ -15,6 +15,22 @@
                 else if (ViewBag.Type == "NoRegistration")
                 {
                     @Html.Partial("~/Views/Account/NoRegistration.cshtml")
+                }
+                else if (ViewBag.Type == "RegisterUser")
+                {
+                    @Html.Partial("~/Views/Account/RegisterUser.cshtml")
+                }   
+                else if (ViewBag.Type == "CompanyRegistered")
+                {
+                    @Html.Partial("~/Views/Account/CompanyRegistered.cshtml")
+                }
+                else if (ViewBag.Type == "RegisterBranch")
+                {
+                    @Html.Partial("~/Views/Account/RegisterBranch.cshtml")
+                }
+                else if (ViewBag.Type == "RegisterSuccess")
+                {
+                    @Html.Partial("~/Views/Account/RegisterSuccess.cshtml")
                 }
                 else
                 {
