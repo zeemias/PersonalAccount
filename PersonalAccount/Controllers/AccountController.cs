@@ -306,7 +306,7 @@ namespace PersonalAccount.Controllers
             try
             {
                 MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("DeltaCreditBot@yandex.ru");
+                mail.From = new MailAddress("");
                 mail.To.Add(GetEmail);
                 mail.Subject = mailSubject;
                 mail.Body = mailBody;
@@ -314,7 +314,7 @@ namespace PersonalAccount.Controllers
 
                 using (SmtpClient smtp = new SmtpClient("smtp.yandex.ru", 25))
                 {
-                    smtp.Credentials = new NetworkCredential("DeltaCreditBot@yandex.ru", "Gcr8UcxdDPa");
+                    smtp.Credentials = new NetworkCredential("", "");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }    
@@ -326,7 +326,7 @@ namespace PersonalAccount.Controllers
 
         SuggestPartyResponse.Suggestions DadataParty(string party)
         {
-            var token = "3bb69fe709e61337c7da821c21e0b1faa85dc7c3";
+            var token = "";
             var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
             var api = new SuggestClient(token, url);
             var response = api.QueryParty(party);
@@ -336,7 +336,7 @@ namespace PersonalAccount.Controllers
 
         SuggestAddressResponse.Suggestions DadataAddress(string address)
         {
-            var token = "3bb69fe709e61337c7da821c21e0b1faa85dc7c3";
+            var token = "";
             var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
             var api = new SuggestClient(token, url);
             var response = api.QueryAddress(address);

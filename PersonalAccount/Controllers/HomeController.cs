@@ -8,22 +8,17 @@ namespace PersonalAccount.Controllers
 {
     public class HomeController : Controller
     {
+    	[AllowAnonymous]
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Account", "Home");
-            }
             return View();
         }
 
+		[Authorize]
         public ActionResult Account()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return View();
-            }
-            return RedirectToAction("Index", "Home");
+
+            return View();
         }
     }
 }
